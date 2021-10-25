@@ -9,6 +9,8 @@ import {
     NavLink,
     Badge
 } from 'reactstrap';
+import * as cartActions from "../../redux/actions/cartActions"
+import {bindActionCreators} from "redux"
 
 class CartSummary extends Component {
     renderEmpty() {
@@ -17,6 +19,9 @@ class CartSummary extends Component {
                 <NavLink>Sepetiniz Boş</NavLink>
             </NavItem>
         )
+    }
+    removeFromCart(product){
+        this.props.actions.removeFromCart(product);
     }
     renderSummary() {
         return (
@@ -27,13 +32,14 @@ class CartSummary extends Component {
                 <DropdownMenu right>
                     {this.props.cart.map(cartItem => (
                         <DropdownItem key={cartItem.product.id}>
-                            <Badge color="warning">{cartItem.product.productName}</Badge>
+                            <Badge color="danger" onClick={()=>this.removeFromCart(cartItem.product)} >X</Badge>
+                            {cartItem.product.productName}
                             <Badge color="success">{cartItem.quantity}</Badge>
                         </DropdownItem>
                     ))}
                     <DropdownItem divider />
                     <DropdownItem>
-                        Reset
+                        Sepete Git
                     </DropdownItem>
                 </DropdownMenu>
             </UncontrolledDropdown>
@@ -48,10 +54,18 @@ class CartSummary extends Component {
     }
 }
 
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: {
+            removeFromCart: bindActionCreators(cartActions.removeFromCart, dispatch),
+        }
+    }
+}
+
 function mapStateToProps(state) {
     return {
         cart: state.cartReducer,
     }
 }
 
-export default connect(mapStateToProps)(CartSummary)
+export default connect(mapStateToProps,mapDispatchToProps)(CartSummary)
