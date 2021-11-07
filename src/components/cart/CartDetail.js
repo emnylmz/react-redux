@@ -26,15 +26,22 @@ class CartDetail extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.props.cart.map(cartItem => (
-                            <tr key={cartItem.product.id}>
-                                <th scope="row">{cartItem.product.id}</th>
-                                <td>{cartItem.product.productName}</td>
-                                <td>{cartItem.product.unitPrice}</td>
-                                <td>{cartItem.quantity}</td>
-                                <td><Button color="danger" onClick={() => this.props.actions.removeFromCart(cartItem.product)}>X</Button></td>
-                            </tr>
-                        ))}
+                        {
+                            this.props.cart.length > 0 ?
+                                this.props.cart.map(cartItem => (
+                                    <tr key={cartItem.product.id}>
+                                        <th scope="row">{cartItem.product.id}</th>
+                                        <td>{cartItem.product.productName}</td>
+                                        <td>{cartItem.product.unitPrice}</td>
+                                        <td>{cartItem.quantity}</td>
+                                        <td><Button color="danger" onClick={() => this.props.actions.removeFromCart(cartItem.product)}>X</Button></td>
+                                    </tr>
+                                ))
+                                :
+                                <tr style={{ textAlign: 'center' }}>
+                                    <td colSpan="5">Sepetiniz boş</td>
+                                </tr>
+                        }
                     </tbody>
                 </Table>
             </div>

@@ -1,6 +1,8 @@
-export default {
+let initialState = {
     currentCategory: {},
     categories: [],
     products: [],
     cart:[]
 }
+
+export default initialState;
